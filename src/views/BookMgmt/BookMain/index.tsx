@@ -12,7 +12,33 @@ import {
   TFsBookWithoutContent,
   TFsBookWithoutContentWithTags,
 } from '@/modules/fs/Fs';
-import { defaultBookSorter } from '@/modules/fs/constant';
+import { addBook, getBooks } from '@/modules/fs';
+
+...
+
+const handleAddBook = useCallback(async (book: TFsBookWithoutContent) => {
+  try {
+    await addBook(book);
+    // Handle success
+  } catch (error) {
+    // Handle error
+  }
+}, []);
+
+...
+
+useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const books = await getBooks();
+      // Handle retrieved books
+    } catch (error) {
+      // Handle error
+    }
+  };
+
+  fetchBooks();
+}, []);
 import { ROUTE_PATH } from '@/router';
 import { Box, Grow } from '@mui/material';
 import { useDebounce } from 'ahooks';
