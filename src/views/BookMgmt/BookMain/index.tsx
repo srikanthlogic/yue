@@ -46,6 +46,29 @@ const BookMain: FC<BookMainProps> = ({ bookGetter }) => {
     [bookGetter],
     null,
   );
+  
+  const { delayData: books, isDelayed } = useMinDelayData(
+    sortedBooks,
+    [bookGetter],
+    100,
+    null,
+  );
+  
+  useEffect(() => {
+    handleExitSelectedMode();
+  }, [bookGetter]);
+  
+  const handleBatchDelete = useCallback(async () => {
+    await deleteBook(selectedBookHashList);
+    handleExitSelectedMode();
+  }, [deleteBook, selectedBookHashList, handleExitSelectedMode]);
+  
+  const handleFilter = useCallback<NonNullable<ToolbarButtonFilterProps['onFilter']>>(
+    (filter, hasFilter) => {
+      setFilter(hasFilter ? filter : null);
+    },
+    [setFilter],
+  );
   const sortedBooks = useMemo(
     () => (originBooks ? sortBooksBySorter(originBooks, sorter) : originBooks),
     [originBooks, sorter],
